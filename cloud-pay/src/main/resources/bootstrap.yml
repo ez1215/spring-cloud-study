@@ -1,0 +1,38 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-pay
+  cloud:
+    config:
+      discovery:
+        service-id: cloud-config
+        enabled: true
+      label: master
+      name: ${spring.application.name}
+      profile: dev
+      username: admin
+      password: admin
+    alibaba:
+      seata:
+        tx-service-group: pay_tx_group
+    loadbalancer:
+      retry:
+        enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+  client:
+    fetch-registry: true
+    # 是否注册进eureka
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://admin:admin@sc.com:8761/eureka/
+
+logging:
+  config: classpath:logback-spring.xml

@@ -1,0 +1,45 @@
+server:
+  port: 8003
+
+spring:
+  application:
+    name: cloud-goods
+  cloud:
+    config:
+      discovery:
+        service-id: cloud-config
+        enabled: true
+      label: master
+      name: ${spring.application.name}
+      profile: dev
+      username: admin
+      password: admin
+    loadbalancer:
+      retry:
+        enabled: true
+
+    alibaba:
+      seata:
+        tx-service-group: cloud_tx_group
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+  client:
+    fetch-registry: true
+    # 是否注册进eureka
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://admin:admin@sc.com:8761/eureka/
+
+logging:
+  config: classpath:logback-spring.xml

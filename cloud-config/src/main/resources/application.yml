@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: cloud-config
+  cloud:
+    config:
+      enabled: true
+      label: master
+      server:
+        git:
+          uri: https://github.com/ez1215/sc-config.git
+          search-paths: config
